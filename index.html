@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Richard Hamilton — Developer</title>
+<meta name="description" content="Richard Hamilton — software developer. Python, Django, React, TypeScript.">
+<link rel="canonical" href="https://rickyhamilton.com/">
+
+<!-- Link preview card, for when this URL gets pasted into LinkedIn / email / a chat. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rickyhamilton.com/">
+<meta property="og:title" content="Richard Hamilton — Developer">
+<meta property="og:description" content="Python and Django on the back end, React and TypeScript on the front. Three shipped projects.">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#2a4b8d">
+
+<!-- Inline SVG favicon: stops the browser's automatic /favicon.ico request 404ing. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232a4b8d'/%3E%3Ctext x='32' y='45' font-family='system-ui,sans-serif' font-size='30' font-weight='700' fill='%23ffffff' text-anchor='middle'%3ERH%3C/text%3E%3C/svg%3E">
+
+<style>
+/* ---------------------------------------------------------------------------
+   One stylesheet, no framework, no build step. Everything is either a CSS
+   custom property (the --names below) or a plain selector.
+
+   Layout tools used, and only these three:
+     - max-width + margin:auto   ...to centre the column
+     - flexbox                   ...for rows that need to sit side by side
+     - grid                      ...for the project card list
+--------------------------------------------------------------------------- */
+
+/* The whole colour scheme lives here. Change a value, the site changes. */
+:root {
+  --bg:        #fbfaf8;
+  --surface:   #ffffff;
+  --text:      #1c1a17;
+  --muted:     #6a655e;
+  --accent:    #2a4b8d;   /* same blue as the links on my resume */
+  --line:      #e3ded6;
+  --shipped:   #1f6f43;
+  --building:  #8a5a00;
+  --measure:   46rem;     /* column width; ~75 characters, comfortable to read */
+}
+
+/* Same names, dark values. The browser picks based on the OS setting.
+   Nothing else in the file needs to know dark mode exists. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:       #14130f;
+    --surface:  #1d1b17;
+    --text:     #eae6df;
+    --muted:    #a49d92;
+    --accent:   #8fb0ee;
+    --line:     #322e28;
+    --shipped:  #63c48d;
+    --building: #e0ad4e;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 3rem 1.25rem 5rem;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Every direct child of body is a centred column of the same width. */
+body > * {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+a { color: var(--accent); }
+
+/* Only show the underline on hover — keeps dense link rows from looking noisy. */
+a.quiet { text-decoration: none; }
+a.quiet:hover, a.quiet:focus-visible { text-decoration: underline; }
+
+/* Visible keyboard focus. Do not delete this; it is the accessibility floor. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* --- header --------------------------------------------------------------- */
+
+h1 {
+  margin: 0 0 .35rem;
+  font-size: 2rem;
+  letter-spacing: -.02em;
+}
+
+.tagline {
+  margin: 0 0 1.1rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* flex-wrap means these links stack themselves on a narrow phone.
+   No media query needed for this row. */
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.1rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+  font-size: .95rem;
+}
+
+/* --- section headings ----------------------------------------------------- */
+
+h2 {
+  margin: 2.75rem 0 1.25rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--line);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --- project cards -------------------------------------------------------- */
+
+/* One column always. Grid is here for the gap, not for columns — if I ever
+   want two across on a wide screen, this is the one line that changes. */
+.projects {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.25rem 1.35rem;
+}
+
+/* Title on the left, status pill on the right, wrapping on small screens. */
+.card__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem .75rem;
+  margin-bottom: .15rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+/* margin-left:auto shoves the pill to the far right of the flex row. */
+.pill {
+  margin-left: auto;
+  padding: .12rem .55rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pill--shipped  { color: var(--shipped); }
+.pill--building { color: var(--building); }
+
+.card__stack {
+  margin: 0 0 .75rem;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.card p { margin: 0 0 .75rem; }
+
+.card ul {
+  margin: 0 0 .9rem;
+  padding-left: 1.15rem;
+}
+
+.card li { margin-bottom: .3rem; }
+
+.card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .9rem;
+  font-size: .9rem;
+}
+
+/* --- footer --------------------------------------------------------------- */
+
+footer {
+  margin-top: 3.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .85rem;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Richard Hamilton</h1>
+  <p class="tagline">Developer. Python and Django on the back end, React and TypeScript on the front.</p>
+
+  <ul class="contact">
+    <li><a class="quiet" href="mailto:richardeldonhamilton@gmail.com">richardeldonhamilton@gmail.com</a></li>
+    <li><a class="quiet" href="https://github.com/SirPlasmaDuck">GitHub</a></li>
+    <li><a class="quiet" href="https://www.linkedin.com/in/richard-eldon-hamilton/">LinkedIn</a></li>
+  </ul>
+</header>
+
+<main>
+
+  <h2>Projects</h2>
+
+  <div class="projects">
+
+    <article class="card">
+      <div class="card__top">
+        <h3 class="card__title">Transcript Nav</h3>
+        <span class="pill pill--shipped">Live</span>
+      </div>
+      <p class="card__stack">React 19 · TypeScript · Vite · Python</p>
+
+      <p>
+        Find a moment in an hour-long recording without dragging the scrubber around.
+        The transcript <em>is</em> the navigation: search for a phrase, click the line,
+        the video jumps there. Matches are highlighted, results are counted, and it
+        works on a phone.
+      </p>
+
+      <ul>
+        <li>
+          A Python ingestion step reassembles the raw caption feed — 3&ndash;6 word
+          display fragments, chopped wherever the text hit the edge of the screen —
+          into 400+ sentence-sized chunks. Straight from the API a search phrase can
+          straddle two lines and match neither.
+        </li>
+        <li>
+          Transcripts are pre-seeded at build time, not fetched per request: the
+          upstream endpoints block datacenter IPs, which is exactly where this
+          deploys. Fetching live would mean the demo breaks at random while
+          someone is looking at it.
+        </li>
+        <li>
+          The player is driven through <code>postMessage</code> rather than the
+          official IFrame API, whose async script load and global ready callback
+          fight React's component lifecycle.
+        </li>
+        <li>
+          Bundling the transcript instead of fetching it costs 84&nbsp;kB gzipped,
+          about 40% of it the data itself. It buys a page with no loading state, no
+          error state, and no network round-trip. At one transcript that's the right
+          trade; at ten it wouldn't be.
+        </li>
+        <li>
+          The timestamp formatter is unit-tested with Vitest, boundaries included.
+          Every design call and the reasoning behind it is written up in the repo's
+          README.
+        </li>
+      </ul>
+
+      <div class="card__links">
+        <a href="https://transcript-nav.vercel.app/">Live demo &rarr;</a>
+        <a href="https://github.com/SirPlasmaDuck/transcript-nav">Source &rarr;</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card__top">
+        <h3 class="card__title">Car Price Prediction App</h3>
+        <span class="pill pill--shipped">Live</span>
+      </div>
+      <p class="card__stack">Python · Pandas · scikit-learn · Streamlit</p>
+
+      <p>
+        A regression model that predicts used-car prices, taken all the way from a
+        messy listings dataset to a deployed app anyone can open and use.
+      </p>
+
+      <ul>
+        <li>Cleaned the raw listings: missing values, categorical encoding, outlier treatment.</li>
+        <li>Evaluated against held-out test data using R&sup2; and mean absolute error.</li>
+        <li>Shipped an interactive interface that predicts in real time from user-adjustable inputs.</li>
+      </ul>
+
+      <div class="card__links">
+        <a href="https://crawford-price-predictor.streamlit.app">Live demo &rarr;</a>
+        <a href="https://github.com/SirPlasmaDuck/car-price-predictor">Source &rarr;</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card__top">
+        <h3 class="card__title">Random Character Generator</h3>
+        <span class="pill pill--shipped">Complete</span>
+      </div>
+      <p class="card__stack">Django · Python · PostgreSQL · JavaScript</p>
+
+      <p>
+        A full-stack Django app that rolls D&amp;D 5e characters with rules-based
+        stat distribution, and persists them.
+      </p>
+
+      <ul>
+        <li>Designed and normalized the PostgreSQL schema for races, classes, and stat modifiers.</li>
+        <li>Conditional logic adjusts stat allocation by race and class combination, mirroring 5e rules.</li>
+        <li>Responsive interface with dynamic client-side rendering in vanilla JavaScript.</li>
+      </ul>
+
+      <div class="card__links">
+        <a href="https://github.com/SirPlasmaDuck/random_character_generator">Source &rarr;</a>
+      </div>
+    </article>
+
+  </div>
+
+  <h2>Background</h2>
+
+  <p>
+    BS in Computer Science, Western Governors University, August 2025.
+    ITIL Foundation (Axelos, 2024) and Linux Foundations (WGU, 2025).
+  </p>
+
+  <p>
+    I build things end to end &mdash; schema design through deployed interface &mdash;
+    and I write down why I made each call, because a decision I can't explain six
+    weeks later wasn't really a decision. Looking to join a team that ships often
+    and reviews code.
+  </p>
+
+</main>
+
+<footer>
+  <p>Hand-written HTML and CSS. No framework, no build step.</p>
+</footer>
+
+</body>
+</html>
